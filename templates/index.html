@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ChatBot</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            .chat-container {
+                max-width: 600px;
+                margin: auto;
+            }
+            .response {
+                margin-top: 20px;
+                border-top: 1px solid #ddd;
+                padding-top: 10px;
+            }
+            .error {
+                color: red;
+                margin-top: 20px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="chat">
+            <h1>ChatBot</h1>
+            <form method="POST">
+                <label for="input_data">Enter Prompt:</label>
+                <input type="text" name="input_data" id="input_data" required>
+                <button type="submit">Submit</button>
+            </form>
+
+            {% if error_message %}
+                <div class="error">{{ error_message }}</div>
+            {% endif %}
+
+            <div class="response">
+                {% if responses %}
+                    {% for response in responses %}
+                        <p><strong>You:</strong> {{ response.user_input }}</p>
+                        <p><strong> {{ response.result }} </strong></p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>
