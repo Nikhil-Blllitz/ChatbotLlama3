@@ -74,3 +74,13 @@ stage('Deploy with Ansible') {
         }
     }
 }
+
+---
+- name: Deploy Maven Artifact to Web Server
+  hosts: webserver
+  become: true
+  tasks:
+      - name: Copy the JAR file to server
+        copy:
+          src: target/javateam-1.0-SNAPSHOT.jar
+          dest: /var/www/html/javateam-1.0-SNAPSHOT.jar
