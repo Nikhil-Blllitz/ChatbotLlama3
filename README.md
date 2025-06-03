@@ -40,3 +40,37 @@ https://www.youtube.com/watch?v=d0o89z134CQ
 https://ollama.com/download
 
 https://github.com/ollama/ollama
+
+pipeline {
+    agent any
+     environment {
+        GIT_REPO = 'https://github.com/sudarsanand/program8.git' // Replace with your GitHub repo
+        ANSIBLE_PLAYBOOK = '/etc/ansible/deployApp.yml' // Ansible playbook path
+        INVENTORY = '/etc/ansible/hosts'    // Ansible inventory file path
+    }
+     stages {
+        stage('Clone Repository') {
+            steps {
+                git url: "${GIT_REPO}", branch: 'master'
+            }
+        }
+stage('Deploy with Ansible') {
+            steps {
+                script {
+                    // Run the Ansible playbook to deploy the artifact
+                    sh "ansible-playbook -i ${INVENTORY} ${ANSIBLE_PLAYBOOK}"
+                }           }        }
+ 
+        stage('Post-Deployment') {
+            steps {
+                echo 'Deployment completed successfully!'
+                      }         }    }
+ post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
+        }
+    }
+}
